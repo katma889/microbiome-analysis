@@ -21,7 +21,7 @@ module load FastQC/0.11.9
 fastqc -o ./fastqc/ -t 10 *.fastq
 ```
 ##Vsearch
-the second step after the quality check is to merge the paired end reads for which I tried Vsearch. As my amplicon size is around 400 bp so I kept minlegth 300 and maximum 600 as options.
+the second step after the quality check is to merge the paired end reads for which I tried Vsearch. As my amplicon size is around 400 bp so I kept minlegth 300 and maximum 600 as options. I used default options 10 and 100 for maxdiffs and maxdiffpct respectively.
 
 ```
 #!/bin/bash -e
