@@ -283,4 +283,12 @@ After cutadapt we further did renaming of every sequences so that the informatio
 script for relabeling is:
 ```
 for fq in trimmed*; do vsearch --fastq_filter $fq --relabel $fq. --fastqout relabel_$fq; done
+Then we moved all relabeled file to output folder, Then we used the below command to merge all the relabel trimmed files into single relabel.fastq
 cat relabel_trimmed* > relabel.fastq
+Then we used Vsearch to dicard all the sequences that do no match specific set of min and maximum length based on the amplicon size. As our amplicon size is approximated 390 bp therefore we kept minimum 37o and maximum 430. The command is below:
+
+vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 430 --fastq_minlen 370 --fastq_maxns 0 --fastaout ./filtered.fasta --fastqout ./filtered.fastq
+But running the above command we got following result "Reading input file 100%  
+2265 sequences kept (of which 0 truncated), 4498561 sequences discarded." 
+
+
