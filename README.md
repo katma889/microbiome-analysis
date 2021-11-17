@@ -290,5 +290,5 @@ Then we used Vsearch to dicard all the sequences that do no match specific set o
 vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 430 --fastq_minlen 370 --fastq_maxns 0 --fastaout ./filtered.fasta --fastqout ./filtered.fastq
 But running the above command we got following result "Reading input file 100%  
 2265 sequences kept (of which 0 truncated), 4498561 sequences discarded." 
-
-
+##checking the number of reads in fastq file
+grep -c '^@' untrimmed.fastq 
