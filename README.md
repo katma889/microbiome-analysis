@@ -81,7 +81,7 @@ ACAGCATC...TCTCTGAC
 >crw_c12_f_p_rk
 ^ACAGCATC...TGCATCGC
 >crw_c13_1_parasite_rk
-^ACAGCATC...TGCATCGC
+^ACAGCATC...ACGCTCGC
 >crw_c16_1_parasite_rk
 ^ACAGCATC...TGTCATAC
 >crw_c17_1_parasite_rk
