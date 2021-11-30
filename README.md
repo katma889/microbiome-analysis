@@ -270,12 +270,13 @@ script for cutadapt is:
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=katma889@student.otago.ac.nz
 
-mkdir All
+mkdir trimmed
+mkdir untrimmed
 module load cutadapt/3.3-gimkl-2020a-Python-3.8.2
 cutadapt -g file:./metadata.all.fasta \
-        -o ./All/{name}.fastq \
+        -o ./trimmed/{name}.fastq \
         ../3.merge/16s_merged.fastq \
-        --untrimmed-output ./All/untrimmed.fastq \
+        --untrimmed-output ./untrimmed/untrimmed.fastq \
         --no-indels -e 0.15
 ```
 After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences.
@@ -283,7 +284,7 @@ After doing the cutadapt script with our metadata, we were able to generate a si
 After cutadapt we further did renaming of every sequences so that the information of the correspponding samples is well incorporated. Then we combined all relable files into a single file before we did quality filtering. This will be a great aid to generate our OTU table.
 script for relabeling is:
 ```
-for fq in trimmed*; do vsearch --fastq_filter $fq --relabel $fq. --fastqout relabel_$fq; done
+for fq in *fastq; do vsearch --fastq_filter $fq --relabel $fq. --fastqout relabel_$fq; done
 Then we moved all relabeled file to output folder, Then we used the below command to merge all the relabel trimmed files into single relabel.fastq
 cat relabel_trimmed* > relabel.fastq
 Then we used Vsearch to dicard all the sequences that do no match specific set of min and maximum length based on the amplicon size. As our amplicon size is approximated 390 bp therefore we kept minimum 37o and maximum 430. The command is below:
