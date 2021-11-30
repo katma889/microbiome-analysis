@@ -279,7 +279,7 @@ cutadapt -g file:./metadata.all.fasta \
         --untrimmed-output ./untrimmed/untrimmed.fastq \
         --no-indels -e 0.15
 ```
-After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences.
+After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences. All our sequences are in trimmed folder and sequences that dont belong to our samples are in untrimmed folder.
 ## Preparing sequencing files for quality filtering
 After cutadapt we further did renaming of every sequences so that the information of the correspponding samples is well incorporated. Then we combined all relable files into a single file before we did quality filtering. This will be a great aid to generate our OTU table.
 script for relabeling is:
