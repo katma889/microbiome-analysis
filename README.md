@@ -295,3 +295,4 @@ vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 450 --fast
 ##checking the number of reads in fastq file
 grep -c '^@' filtered.fastq 
 7635126
+Then we further checked the qulaity of filetered Fastq files using FastQC/0.11.9
