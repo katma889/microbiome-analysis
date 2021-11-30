@@ -299,4 +299,4 @@ Then we further checked the qulaity of filetered Fastq files using FastQC/0.11.9
 ```
 fastqc filtered.fastq
 ```
-see our output file from fastq [here](FastQC/0.11.9)
+see our output file from fastq [here](fastqc_report.html)
