@@ -53,7 +53,7 @@ vsearch --fastq_mergepairs ../6888-P1-00-01_S1_L001_R1_001.fastq \
 ## Cutadapt
 Then we used Cutadapt to demultiplex  our data. first we created a metadata file including indiviadual sample name and their indexes.
 
-`metadata.fasta`
+`metadata.all.fasta`
 
 ```
 >N1
@@ -259,23 +259,24 @@ script for cutadapt is:
 ```
 #!/bin/bash -e
 
-#SBATCH --job-name=demux
+#SBATCH --job-name=demuxall
 #SBATCH --account=uoo02772
 #SBATCH --time=02:00:00
 #SBATCH --mem=1G
-#SBATCH --ntasks=6
+#SBATCH --ntasks=16
 #SBATCH --cpus-per-task=1
 #SBATCH --output=%x-%j.out
 #SBATCH --error=%x-%j.err
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=katma889@student.otago.ac.nz
 
+mkdir All
 module load cutadapt/3.3-gimkl-2020a-Python-3.8.2
-cutadapt -g file:./metadata.fasta \
-        -o ./demux_output/trimmed_{name}.fastq \
-        ../16s_merged.fastq \
-        --untrimmed-output ./demux_output/untrimmed.fastq \
-        --no-indels -e 0
+cutadapt -g file:./metadata.all.fasta \
+        -o ./All/{name}.fastq \
+        ../3.merge/16s_merged.fastq \
+        --untrimmed-output ./All/untrimmed.fastq \
+        --no-indels -e 0.15
 ```
 After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences.
 ## Preparing sequencing files for quality filtering
