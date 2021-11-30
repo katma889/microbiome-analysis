@@ -253,7 +253,6 @@ Then we used Cutadapt to demultiplex  our data. first we created a metadata file
 >A35
 ^TGACGCAGGTGYCAGCMGCCGCGGTAA...ATTAGAWACCCBNGTAGTCCCTGCGTCA
 
-
 ```
 script for cutadapt is:
 ```
@@ -281,15 +280,17 @@ cutadapt -g file:./metadata.all.fasta \
 ```
 After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences. All our sequences are in trimmed folder and sequences that dont belong to our samples are in untrimmed folder.
 ## Preparing sequencing files for quality filtering
+relable-merge- filter
 After cutadapt we further did renaming of every sequences so that the information of the correspponding samples is well incorporated. Then we combined all relable files into a single file before we did quality filtering. This will be a great aid to generate our OTU table.
 script for relabeling is:
 ```
 for fq in *fastq; do vsearch --fastq_filter $fq --relabel $fq. --fastqout relabel_$fq; done
 Then we moved all relabeled file to output folder, Then we used the below command to merge all the relabel trimmed files into single relabel.fastq
 cat relabel_* > relabel.fastq
-Then we used Vsearch to dicard all the sequences that do no match specific set of min and maximum length based on the amplicon size. As our amplicon size is approximated 390 bp therefore we kept minimum 37o and maximum 430. The command is below:
+Then we used Vsearch to dicard all the sequences that do no match specific set of min and maximum length based on the amplicon size. As our amplicon size is approximated 390 bp therefore we kept minimum 370 and maximum 430. The command is below:
 
 vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 430 --fastq_minlen 370 --fastq_maxns 0 --fastaout ./filtered.fasta --fastqout ./filtered.fastq
+```
 But running the above command we got following result "Reading input file 100%  
 2265 sequences kept (of which 0 truncated), 4498561 sequences discarded." 
 ##checking the number of reads in fastq file
