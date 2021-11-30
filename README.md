@@ -292,7 +292,11 @@ Then we used Vsearch to dicard all the sequences that do no match specific set o
 ```cd filter
 vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 450 --fastq_minlen 200 --fastq_maxns 0 --fastaout ../filter/filtered.fasta --fastqout ../filter/filtered.fastq
 ```
-##checking the number of reads in fastq file
+## Checking the number of reads in fastq file
 grep -c '^@' filtered.fastq 
 7635126
 Then we further checked the qulaity of filetered Fastq files using FastQC/0.11.9
+```
+fastqc filtered.fastq
+```
+see our output file from fastq [here](FastQC/0.11.9)
