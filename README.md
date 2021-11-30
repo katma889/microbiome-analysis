@@ -300,3 +300,19 @@ Then we further checked the qulaity of filetered Fastq files using FastQC/0.11.9
 fastqc filtered.fastq
 ```
 see our output file from fastq [here](fastqc_report.html)
+## clustering
+Before clustering our dataset we need to separate the unique sequences as the data was based on many sequencing the amplicons. As a result same DNA molecules have been sequenced several times which requires increased computational time becasue of greater file size for processing therefore to mitigate this problem, its convienient to work with unique sequences. We set the minimum size 10 so that the unique sequences occuring less than ten times were removed. However, there is no fix rule about the number for this process. Then after the clustering process, we further removed the chimeric sequences from the OTUs generated. Thus, final OTU table is now created by mapping the number of sequences to each OTU for every sample from filetered fastq. All the scripts for this proocess are given below.
+```
+cd cluster
+#!/bin/bash
+
+cd filter/
+
+vsearch --derep_fulllength filtered.fasta --relabel uniq. -output uniques.fasta --sizeout --minuniquesize 10
+
+vsearch --cluster_size uniques.fasta --centroids otus.fasta --relabel otu. --id 0.97 --sizeout
+
+vsearch --uchime3_denovo otus.fasta --nonchimeras ../final/otus_chimeras_removed.fasta --chimeras chimeras.fasta
+
+vsearch --usearch_global filtered.fasta --db ../final/otus_chimeras_removed.fasta --strand plus --otutabout ../final/otutable.tsv --id 0.97
+```
