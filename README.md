@@ -44,7 +44,7 @@ vsearch --fastq_mergepairs ../6888-P1-00-01_S1_L001_R1_001.fastq \
         --fastqout 16s_merged.fastq.gz \
         --fastqout_notmerged_fwd 16s_notmerged_fwd.fastq.gz \
         --fastqout_notmerged_rev 16s_notmerged_rev.fastq.gz \
-        --fastq_maxdiffs 10 \
+        --fastq_maxdiffs 30 \
         --fastq_maxdiffpct 100 \
         --fastq_minmergelen 300 \
         --fastq_maxmergelen 600 \
@@ -289,7 +289,7 @@ Then we moved all relabeled file to output folder, Then we used the below comman
 cat relabel_* > relabel.fastq
 Then we used Vsearch to dicard all the sequences that do no match specific set of min and maximum length based on the amplicon size. As our amplicon size is approximated 390 bp therefore we kept minimum 370 and maximum 430. The command is below:
 
-vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 430 --fastq_minlen 370 --fastq_maxns 0 --fastaout ./filtered.fasta --fastqout ./filtered.fastq
+vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 450 --fastq_minlen 200 --fastq_maxns 0 --fastaout ./filtered.fasta --fastqout ./filtered.fastq
 ```
 But running the above command we got following result "Reading input file 100%  
 2265 sequences kept (of which 0 truncated), 4498561 sequences discarded." 
