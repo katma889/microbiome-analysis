@@ -1,7 +1,7 @@
 ## Microbiome-analysis using 16s amplicon data for three weevils (Sitona obsoletus, S. discoideus, and Listronotus bonariensis)
 This is a compilation of my scripts for 16S sequencing data analysis
 ### Quality check
-We had paired read 16S sequencing data from Miseq. The first job is to check the quality of data before processing it. So, we used `fastqc` for this purpose.
+We had paired read 16S sequencing data from `Miseq`. The first job is to check the quality of data before processing it. So, we used `fastqc` for this purpose.
 
 `Script for fastqc`
 
@@ -25,6 +25,7 @@ fastqc -o ./fastqc/ -t 10 *.fastq
 ```
 ### Vsearch
 the second step after the quality check is to merge the paired end reads for which I tried Vsearch. As my amplicon size is around 400 bp so I kept minlegth 300 and maximum 600 as options. I used default options 10 and 100 for maxdiffs and maxdiffpct respectively.
+
 `Script for vsearch`
 
 ```
@@ -285,7 +286,7 @@ cutadapt -g file:./metadata.all.fasta \
         
 ```
 
-After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences. All our sequences are in trimmed folder and sequences that dont belong to our samples are in untrimmed folder.
+After doing the cutadapt script with our metadata, we were able to generate a `single fastq file` of each sample from the `metadata` file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences. All our sequences are in trimmed folder and sequences that dont belong to our samples are in untrimmed folder.
 
 ### Preparing sequencing files for quality filtering
 
@@ -314,7 +315,7 @@ fastqc filtered.fastq
 see our output file from fastq [here](fastqc_report.html)
 
 ### clustering
-Before clustering our dataset we need to separate the unique sequences as the data was based on many sequencing the amplicons. As a result same DNA molecules have been sequenced several times which requires increased computational time becasue of greater file size for processing therefore to mitigate this problem, its convienient to work with unique sequences. We set the minimum size 10 so that the unique sequences occuring less than ten times were removed. However, there is no fix rule about the number for this process. Then after the clustering process, we further removed the chimeric sequences from the OTUs generated. Thus, final OTU table is now created by mapping the number of sequences to each OTU for every sample from filetered fastq. All the scripts for this proocess are given below.
+Before clustering our dataset we need to separate the unique sequences as the data was based on many sequencing the amplicons. As a result same DNA molecules have been sequenced several times which requires increased computational time becasue of greater file size for processing therefore to mitigate this problem, its convienient to work with unique sequences. We set the minimum size 10 so that the unique sequences occuring less than ten times were removed. However, there is no fix rule about the number for this process. Then after the clustering process, we further removed the chimeric sequences from the OTUs generated. Thus, final `OTU table` is now created by mapping the number of sequences to each OTU for every sample from filetered fastq. All the scripts for this proocess are given below.
 
 ```
 cd cluster
