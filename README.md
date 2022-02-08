@@ -1,7 +1,8 @@
-# Microbiome-analysis
+## Microbiome-analysis using 16s amplicon data for three weevils (Sitona obsoletus, S. discoideus, and Listronotus bonariensis)
 This is a compilation of my scripts for 16S sequencing data analysis
-## Quality check
-We had paired read 16S sequencing data from Miseq. The first job is to check the quality of data before processing it. So, we used fastqc for this purpose.
+### Quality check
+We had paired read 16S sequencing data from Miseq. The first job is to check the quality of data before processing it. So, we used `fastqc` for this purpose.
+`Script for fastqc`
 
 ```
 #!/bin/bash -e
@@ -19,9 +20,11 @@ We had paired read 16S sequencing data from Miseq. The first job is to check the
 
 module load FastQC/0.11.9
 fastqc -o ./fastqc/ -t 10 *.fastq
+
 ```
-## Vsearch
+### Vsearch
 the second step after the quality check is to merge the paired end reads for which I tried Vsearch. As my amplicon size is around 400 bp so I kept minlegth 300 and maximum 600 as options. I used default options 10 and 100 for maxdiffs and maxdiffpct respectively.
+`Script for vsearch`
 
 ```
 #!/bin/bash -e
@@ -50,8 +53,8 @@ vsearch --fastq_mergepairs ../6888-P1-00-01_S1_L001_R1_001.fastq \
         --fastq_maxmergelen 600 \
         --threads 10
 ```
-## Cutadapt
-Then we used Cutadapt to demultiplex  our data. first we created a metadata file including indiviadual sample name and their indexes.
+### Cutadapt
+Then we used `Cutadapt` to demultiplex  our data. first we created a metadata file including indiviadual sample name and their indexes.
 
 `metadata.all.fasta`
 
@@ -254,7 +257,8 @@ Then we used Cutadapt to demultiplex  our data. first we created a metadata file
 ^TGACGCAGGTGYCAGCMGCCGCGGTAA...ATTAGAWACCCBNGTAGTCCCTGCGTCA
 
 ```
-script for cutadapt is:
+`script for cutadapt is`
+
 ```
 #!/bin/bash -e
 
@@ -277,9 +281,13 @@ cutadapt -g file:./metadata.all.fasta \
         ../3.merge/16s_merged.fastq \
         --untrimmed-output ./untrimmed/untrimmed.fastq \
         --no-indels -e 0.15
+        
 ```
+
 After doing the cutadapt script with our metadata, we were able to generate a single fastq file of each sample from the metadata file. At this step, we also removed the barcodes and primer sequences only keeping the amplicon sequences. All our sequences are in trimmed folder and sequences that dont belong to our samples are in untrimmed folder.
-## Preparing sequencing files for quality filtering
+
+### Preparing sequencing files for quality filtering
+
 relable-merge- filter
 After cutadapt we further did renaming of every sequences so that the information of the correspponding samples is well incorporated. Then we combined all relable files into a single file before we did quality filtering. This will be a great aid to generate our OTU table.
 script for relabeling is:
@@ -291,17 +299,20 @@ Then we used Vsearch to dicard all the sequences that do no match specific set o
 
 ```cd filter
 vsearch --fastq_filter relabel.fastq --fastq_maxee 1.0 --fastq_maxlen 450 --fastq_minlen 200 --fastq_maxns 0 --fastaout ../filter/filtered.fasta --fastqout ../filter/filtered.fastq
+
 ```
-## Checking the number of reads in fastq file
+### Checking the number of reads in fastq file
 grep -c '^@' filtered.fastq 
 7635126
-Then we further checked the qulaity of filetered Fastq files using FastQC/0.11.9
+Then we further checked the qulaity of filetered Fastq files using `FastQC/0.11.9`
 ```
 fastqc filtered.fastq
 ```
 see our output file from fastq [here](fastqc_report.html)
-## clustering
+
+### clustering
 Before clustering our dataset we need to separate the unique sequences as the data was based on many sequencing the amplicons. As a result same DNA molecules have been sequenced several times which requires increased computational time becasue of greater file size for processing therefore to mitigate this problem, its convienient to work with unique sequences. We set the minimum size 10 so that the unique sequences occuring less than ten times were removed. However, there is no fix rule about the number for this process. Then after the clustering process, we further removed the chimeric sequences from the OTUs generated. Thus, final OTU table is now created by mapping the number of sequences to each OTU for every sample from filetered fastq. All the scripts for this proocess are given below.
+
 ```
 cd cluster
 #!/bin/bash
@@ -315,4 +326,5 @@ vsearch --cluster_size uniques.fasta --centroids otus.fasta --relabel otu. --id 
 vsearch --uchime3_denovo otus.fasta --nonchimeras ../final/otus_chimeras_removed.fasta --chimeras chimeras.fasta
 
 vsearch --usearch_global filtered.fasta --db ../final/otus_chimeras_removed.fasta --strand plus --otutabout ../final/otutable.tsv --id 0.97
+
 ```
