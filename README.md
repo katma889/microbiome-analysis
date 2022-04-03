@@ -345,3 +345,17 @@ and 0 (0.0%) borderline sequences in 1312 unique sequences.
 Taking abundance information into account, this corresponds to
 883 (3.0%) chimeras, 28542 (97.0%) non-chimeras,
 and 0 (0.0%) borderline sequences in 29425 total sequences.
+
+```
+vsearch --sintax otus_chimeras_removed.fasta --db ./rdp_16s_v16.fa --tabbedout taxonomy_OTU_sintax.txt
+vsearch v2.17.1_linux_x86_64, 503.8GB RAM, 72 cores
+https://github.com/torognes/vsearch
+
+Reading file ./rdp_16s_v16.fa 100%  
+19098167 nt in 13212 seqs, min 320, max 2210, avg 1446
+Counting k-mers 100% 
+Creating k-mer index 100% 
+Classifying sequences 100%  
+Classified 949 of 1042 sequences (91.07%)
+
+```
