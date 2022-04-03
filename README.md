@@ -332,3 +332,16 @@ vsearch --uchime3_denovo otus.fasta --nonchimeras ../final/otus_chimeras_removed
 vsearch --usearch_global filtered.fasta --db ../final/otus_chimeras_removed.fasta --strand plus --otutabout ../final/otutable.tsv --id 0.97
 
 ```
+Output of search --uchime3_denovo otus.fasta --nonchimeras ../final/otus_chimeras_removed.fasta --chimeras chimeras.fasta is below
+
+Reading file otus.fasta 100%  
+336178 nt in 1312 seqs, min 247, max 427, avg 256
+Masking 100% 
+Sorting by abundance 100%
+Counting k-mers 100% 
+Detecting chimeras 100%  
+Found 270 (20.6%) chimeras, 1042 (79.4%) non-chimeras,
+and 0 (0.0%) borderline sequences in 1312 unique sequences.
+Taking abundance information into account, this corresponds to
+883 (3.0%) chimeras, 28542 (97.0%) non-chimeras,
+and 0 (0.0%) borderline sequences in 29425 total sequences.
