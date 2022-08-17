@@ -359,3 +359,5 @@ Classifying sequences 100%
 Classified 949 of 1042 sequences (91.07%)
 
 ```
+### Bacterial Taxonomic assignment
+Now we have got our OTU list and an OTU table, the next step would be to assign a taxonomy to each of our sequence. Taxonomic assignment can be done in many ways, however, we chosed to use the custom curated reference database and the sintax algorithm in the VSEARCH software program (website `https://pubmed.ncbi.nlm.nih.gov/27781170/). Briefly, we assigned the taxonomy for bacterial data using the RDP training set. In simple terms, this is a smaller and curated reference database created from the full RDP database. We downloaded the file named `rdp_16s_v16.fa.gz` from the website `https://drive5.com/usearch/manual/sintax_downloads.html` then unzip the reference database using `gunzip` command.
