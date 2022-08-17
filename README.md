@@ -361,3 +361,22 @@ Classified 949 of 1042 sequences (91.07%)
 ```
 ### Bacterial Taxonomic assignment
 Now we have got our OTU list and an OTU table, the next step would be to assign a taxonomy to each of our sequence. Taxonomic assignment can be done in many ways, however, we chosed to use the custom curated reference database and the sintax algorithm in the VSEARCH software program (website `https://pubmed.ncbi.nlm.nih.gov/27781170/). Briefly, we assigned the taxonomy for bacterial data using the RDP training set. In simple terms, this is a smaller and curated reference database created from the full RDP database. We downloaded the file named `rdp_16s_v16.fa.gz` from the website `https://drive5.com/usearch/manual/sintax_downloads.html` then unzip the reference database using `gunzip` command.
+`the script we used is given below`
+```
+vsearch --sintax otus_chimeras_removed.fasta --db ./rdp_16s_v16.fa --tabbedout taxonomy_OTU_sintax.txt 
+
+```
+we got the following output 
+```
+vsearch v2.21.1_linux_x86_64, 503.8GB RAM, 72 cores
+https://github.com/torognes/vsearch
+
+Reading file ./rdp_16s_v16.fa 100%  
+19098167 nt in 13212 seqs, min 320, max 2210, avg 1446
+Counting k-mers 100% 
+Creating k-mer index 100% 
+Classifying sequences 100%  
+Classified 1023 of 1118 sequences (91.50%)
+```
+
+
